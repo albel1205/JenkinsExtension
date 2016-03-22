@@ -1,0 +1,39 @@
+{
+  "manifest_version": 2,
+  "name": "Jenkins Progress Shower",
+  "description": "This extensions provide options for user to monitor the progress of their current builds on Jenkins",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": [ "<all_urls>" ],
+      "js": [
+        "lib/jquery-2.2.1.min.js",
+        "widgets/jex.events.js",
+        "widgets/jex.constants.js",
+        "widgets/jex.utils.js",
+        "widgets/jex.pubsub.js",
+        "widgets/jex.jobManager.js",
+        "widgets/jex.job-queue.js",
+        "widgets/jex.browser.js",
+        "widgets/jex.js"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": [ "background.js" ],
+    "persistent": false
+  },
+  "browser_action": {
+    "default_icon": "img/icon.png"
+  },
+  "permissions": [
+    "tabs",
+    "contextMenus",
+    "notifications"
+  ],
+  "icons": {
+    "16": "img/icon.png",
+    "48": "img/icon.png",
+    "128": "img/icon.png"
+  }
+}
