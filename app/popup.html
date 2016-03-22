@@ -1,31 +1,65 @@
 <!doctype html>
 <html>
-  <head>
+
+<head>
     <title>Getting Started Extension's Popup</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="styles/bootstrap-theme.min.css">
     <style>
-      body {
-        min-width: 357px;
-        overflow-x: hidden;
-      }
+        body {
+            min-width: 300px;
+            overflow-x: hidden;
+        }
 
-      img {
-        margin: 5px;
-        border: 2px solid black;
-        vertical-align: middle;
-        width: 75px;
-        height: 75px;
-      }
+        img {
+            margin: 5px;
+            vertical-align: middle;
+            width: 30px;
+            height: 30px;
+        }
+
+        div.status-text {
+            height: 30px;
+            line-height: 38px;
+            text-align: left;
+            padding-left: 0px;
+        }
+
+        div.status-text span {
+            display: inline-block;
+            vertical-align: middle;
+            line-height: normal;
+        }
     </style>
+</head>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
-     -->
+<body>
+    <ul class="list-group" style="margin-bottom:0px;">
+        <li class="list-group-item">
+            <span class="pull-xs-right">
+                <img src="img/success.png" alt="success"/>
+            </span>
+            <b>Omega-Dev #2342</b>
+        </li>
+        <li class="list-group-item alert-danger">
+            <span class="pull-xs-right">
+                <img src="img/failed.png" alt="success"/>
+            </span>
+            <b>Omega-Staging #2342</b>
+        </li>
+        <li class="list-group-item">
+            <span class="pull-xs-right">
+                <img src="img/aborted.png" alt="success"/>
+            </span>
+            <b>Omega-UAT #2342</b>
+        </li>
+    </ul>
+
+    <script src="lib/jquery-2.2.1.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
     <script src="popup.js"></script>
-  </head>
-  <body>
-  </body>
-</html>
+</body>
 
+</html>
