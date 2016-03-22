@@ -94,6 +94,7 @@
       jex.data.set(jobName, {
         jobName: jobName,
         jobUrl: requestUrl,
+        number: '',
         result: null,
         notified: false
       });
@@ -118,6 +119,7 @@
           jex.data.set(currentJobName, {
             jobName: currentJobName,
             jobUrl: job.jobUrl,
+            number: response.number,
             result: response.result,
             notified: true
           });

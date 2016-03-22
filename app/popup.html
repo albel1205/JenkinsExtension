@@ -36,27 +36,17 @@
 </head>
 
 <body>
-    <ul class="list-group" style="margin-bottom:0px;">
-        <li class="list-group-item">
-            <span class="pull-xs-right">
-                <img src="img/success.png" alt="success"/>
-            </span>
-            <b>Omega-Dev #2342</b>
-        </li>
-        <li class="list-group-item alert-danger">
-            <span class="pull-xs-right">
-                <img src="img/failed.png" alt="success"/>
-            </span>
-            <b>Omega-Staging #2342</b>
-        </li>
-        <li class="list-group-item">
-            <span class="pull-xs-right">
-                <img src="img/aborted.png" alt="success"/>
-            </span>
-            <b>Omega-UAT #2342</b>
-        </li>
+    <ul id="jobListGroup" class="list-group" style="margin-bottom:0px;">
+        
     </ul>
-
+    <script id="jobTemplate" type="text/x-jquery-tmpl">
+        <li class="list-group-item ${dangerClass}">
+            <span class="pull-xs-right">
+                <img src="img/${iconImg}" alt="${iconImg}"/>
+            </span>
+            <b>${fullDisplayName}</b>
+        </li>
+    </script>
     <script src="lib/jquery-2.2.1.min.js"></script>
     <script src="lib/bootstrap.min.js"></script>
     <script src="popup.js"></script>
