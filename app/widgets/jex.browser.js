@@ -8,10 +8,10 @@
     jex.browser = {
         initialize: function(){
             jex.pubsub.subscribe(jex.events.updateBadgeText, jex.browser.updateBage, this);
-            jex.pubsub.subscribe(jex.events.notify, jex.browser.showNotification, this);
             jex.pubsub.subscribe(jex.events.updateJob, jex.browser.updateJob, this);
 
             jex.browser.initContextMenu();
+
             chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 if (request.eventName == jex.events.addJobToQueue) {
                     jex.pubsub.publish(jex.events.addJobToQueue, request.jobUrl);
