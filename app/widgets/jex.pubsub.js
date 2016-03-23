@@ -12,7 +12,7 @@
                             queue[eventName][idx].callback.call(context, data);
                         } catch (err) {
                             jex.log('An error occurred in one of the callbacks for the event "' + eventName + '"');
-                            jex.log('the error was "' + e + '"');
+                            jex.log('the error was "' + err.message + '"');
                         }
 
                         idx += 1;

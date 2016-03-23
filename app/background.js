@@ -7,25 +7,24 @@
         });
     }
     else if (request.eventName == "updateBadgeText") {
-        var number = request.number,
-            color = request.color;
+        if(request.data){
+          var number = request.data.text,
+              color = request.data.background;
 
-        chrome.browserAction.setBadgeText({ text: String(number) });
-        chrome.browserAction.setBadgeBackgroundColor({ color: color });
+          chrome.browserAction.setBadgeText({ text: String(number) });
+          chrome.browserAction.setBadgeBackgroundColor({ color: color });
+        }
     }
     else if (request.eventName == "notify") {
-        var jobName = request.jobName,
-            number = request.number,
-            status = request.status,
-            icon = request.icon;
-
-        var option = {
-            type: 'basic',
-            title: "#" + number + " (" + status + ")",
-            message: jobName,
-            iconUrl: icon
-        };
-        chrome.notifications.create("", option, function (id) { /* Do nothing */ });
+        if(request.data){
+          var option = {
+              type: 'basic',
+              title: request.data.title,
+              message: request.data.message,
+              iconUrl: request.data.icon
+          };
+          chrome.notifications.create("", option, function (id) { /* Do nothing */ });
+        }
     }
 });
 
@@ -38,4 +37,3 @@ chrome.contextMenus.onClicked.addListener(function (info, tab) {
         });
     }
 });
-

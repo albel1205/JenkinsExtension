@@ -18,7 +18,7 @@
         * @param {string} token  An identifier for retrieving associated data
         */
         get: function (token) {
-            return this._getData()[token];
+            return jex.data._getData()[token];
         },
 
         /**
@@ -28,9 +28,9 @@
         * @param {mixed} payload   A blob of data
         */
         set: function (token, payload) {
-            var data = this._getData();
+            var data = jex.data._getData();
             data[token] = payload;
-            this._setData(data);
+            jex.data._setData(data);
         },
 
         /**
@@ -39,75 +39,88 @@
         * @param {string} token    An identifier for the stored data
         */
         clear: function (token) {
-            var data = this._getData();
+            var data = jex.data._getData();
             data[token] = undefined;
-            this._setData(data);
+            jex.data._setData(data);
         },
 
         /**
         * Clears all data from the data store
         */
         clearAll: function () {
-            var data = this._getData();
+            var data = jex.data._getData();
             data = {};
-            this._setData(data);
+            jex.data._setData(data);
         }
     };
 
-    var currentJobName,
-        timeOut = 6 * 1000;
+    var timeOut = 6 * 1000;
 
     jex.jobManager = {
         jobNames: [],
         _fetch: function(){
             setInterval(function () {
-                if (this.jobNames == undefined || this.jobNames.length == 0) {
+                if (jex.jobManager.jobNames == undefined || jex.jobManager.jobNames.length == 0) {
                     jex.pubsub.publish(jex.events.updateBadgeText, {
                         text: "",
-                        backgroundColor:getColor("")
+                        backgroundColor:jex.getColor("")
                     });
                 }
 
-                $.each(jobNames, function (index, name) {
-                    this._getJobStatus(name);
+                $.each(jex.jobManager.jobNames, function (index, name) {
+                    if(!jex.data.get(name)){
+                      jex.jobManager.jobNames.pop();
+                    } else {
+                      jex.jobManager._getJobStatus(name);
+                    }
                 });
+
+                localStorage.setItem("jobNames", JSON.stringify(jex.jobManager.jobNames));
             }, timeOut);
         },
-        initialize: function(){
-            jex.data.clearAll();
-            jex.pubsub.subscribe(jex.events.addJobToQueue, this.monitorJob, this);
 
-            this._fetch();
+        initialize: function(){
+            jex.pubsub.subscribe(jex.events.addJobToQueue, jex.jobManager.monitorJob, this);
+            jex.jobManager._fetch();
         },
 
         monitorJob: function(jobUrl){
-            var jobName = jex.getJobNameFromUrl(url),
+            var jobName = jex.getJobNameFromUrl(jobUrl),
                 requestUrl = jex.getJobUrl(jobName);
 
             if(!jex.data.get(jobName)){
-                jobNames.push(jobName);
+                jex.jobManager.jobNames.push(jobName);
             }
 
             jex.data.set(jobName, {
                 jobName: jobName,
-                jobUrl: requestUrl
+                jobUrl: requestUrl,
+                result: null,
+                notified: false
             })
         },
 
         _getJobStatus: function(jobName){
             var jobUrl = jex.getJobUrl(jobName);
-            currentJobName = jobName;
+
             $.getJSON(jobUrl, function (response) {
-                jex.pubsub.publish(jex.events.updateJob, response);
+                if(!response.result) return false;//in-progress
 
                 try {
+                    var currentJobName = jex.getJobNameFromBuildUrl(response.url, response.number);
                     var job = jex.data.get(currentJobName);
+
+                    if(response.fullDisplayName.indexOf(job.jobName) >= 0 && job.result != response.result){
+                      jex.pubsub.publish(jex.events.updateJob, response);
+                    }
+
                     jex.data.set(currentJobName, {
                         jobName: currentJobName,
                         jobUrl: job.jobUrl,
+                        result: response.result,
                         notified: true
                     })
-                }catch(e){
+                }catch(err){
                     jex.log(err.message);
                 }
             });

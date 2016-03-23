@@ -43,6 +43,12 @@
         return result;
     };
 
+    jex.getJobNameFromBuildUrl = function(url, number){
+      var numberIndex = url.indexOf(number);
+      var jobUrl = url.substring(0, numberIndex);
+      return jex.getJobNameFromUrl(jobUrl);
+    }
+
     jex.buildQueryJobUrl = function (url) {
         var jobName = this.getJobNameFromUrl(url);
         return jex.JENKINS_URL + "/job/" + jobName + "/" + jex.BUILD_NUMBER + "/" + jex.API_SUFFIX;
@@ -54,7 +60,7 @@
 
     jex.log = function (args) {
         if (typeof console !== 'undefined' && typeof console.log !== 'undefined') {
-            jex.log(args);
+            console.log(args);
         }
     };
 
@@ -66,6 +72,8 @@
             color = [255, 0, 0, 200];
         } else if (result == jex.ABORTED) {
             color = [200, 200, 200, 200];
+        } else if(result == null) {//in-progress
+
         }
         return color;
     }
@@ -78,6 +86,8 @@
             icon = "img/failure.png";
         } else if (result == jex.ABORTED) {
             icon = "img/aborted.png";
+        } else if(result == null) {//in-progress
+
         }
         return icon;
     }

@@ -7,11 +7,11 @@
     }
     jex.browser = {
         initialize: function(){
-            jex.pubsub.subscribe(jex.events.updateBadgeText, this.updateBage, this);
-            jex.pubsub.subscribe(jex.events.notify, this.showNotification, this);
-            jex.pubsub.subscribe(jex.events.updateJob, this.updateJob, this);
+            jex.pubsub.subscribe(jex.events.updateBadgeText, jex.browser.updateBage, this);
+            jex.pubsub.subscribe(jex.events.notify, jex.browser.showNotification, this);
+            jex.pubsub.subscribe(jex.events.updateJob, jex.browser.updateJob, this);
 
-            this.initContextMenu();
+            jex.browser.initContextMenu();
             chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 if (request.eventName == jex.events.addJobToQueue) {
                     jex.pubsub.publish(jex.events.addJobToQueue, request.jobUrl);
