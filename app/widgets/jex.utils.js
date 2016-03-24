@@ -47,7 +47,7 @@
       var numberIndex = url.indexOf(number);
       var jobUrl = url.substring(0, numberIndex);
       return jex.getJobNameFromUrl(jobUrl);
-    }
+    };
 
     jex.buildQueryJobUrl = function (url) {
         var jobName = this.getJobNameFromUrl(url);
@@ -76,7 +76,7 @@
 
         }
         return color;
-    }
+    };
 
     jex.getIconUrl = function(result) {
         var icon = "img/success.png";
@@ -90,13 +90,21 @@
 
         }
         return icon;
-    }
+    };
+
+    jex.sendMessageToBackground = function(eventName, data){
+        chrome.runtime.sendMessage({
+            eventName: eventName,
+            data: data
+        });
+    };
 
     if (!Array.prototype.remove) {
         Array.prototype.removeItem = function (item) {
             var i = this.indexOf(item);
             return i > -1 ? this.slice(i, 1) : [];
         };
-    }
+    };
+
 
 })(this.jex = this.jex || {}, jQuery);

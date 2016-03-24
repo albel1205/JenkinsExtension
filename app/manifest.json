@@ -15,6 +15,7 @@
         "widgets/jex.jobManager.js",
         "widgets/jex.job-queue.js",
         "widgets/jex.browser.js",
+        "widgets/jex.popup.js",
         "widgets/jex.js"
       ]
     }

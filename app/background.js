@@ -6,6 +6,9 @@
             "contexts": ["link"]
         });
     }
+    else if(request.eventName == "loadPopupDataResult"){
+
+    }
     else if (request.eventName == "updateBadgeText") {
         if(request.data){
           var number = request.data.text,
