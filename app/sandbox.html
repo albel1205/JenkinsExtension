@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+      <script src="lib/handlebars-1.0.0.beta.6.js"></script>
+  </head>
+  <body>
+    <script id="job-template" type="text/x-handlebars-template">
+        {{#each jobs}}
+        <li class="list-group-item {{this.dangerClass}}">
+            <span class="pull-xs-right">
+                <img src="{{this.iconImg}}"/>
+            </span>
+            <b>{{this.fullDisplayName}}</b>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+      var templates = [];
+      var source = document.getElementById('job-template').innerHTML;
+      templates['job'] = Handlebars.compile(source);
+
+      // Set up message event handler:
+      window.addEventListener('message', function(event) {
+        var command = event.data.command;
+        var name = event.data.name || 'job';
+        switch(command) {
+          case 'render':
+            event.source.postMessage({
+              name: name,
+              html: templates[name](event.data.context)
+            }, event.origin);
+            break;
+        }
+      });
+    </script>
+  </body>
+</html>

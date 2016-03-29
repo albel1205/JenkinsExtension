@@ -12,6 +12,21 @@
     return icon;
 };
 
+function buildPopupModels(jobNames, jobs){
+    var result = [];
+    $.each(jobNames, function(index, name){
+        var job=jobs[name];
+
+        result.push({
+            dangerClass: job.result == 'FAILURE' ? 'alert-danger' : '',
+            iconImg:getIconUrl(job.result),
+            fullDisplayName: job.jobName + ' #' + job.number
+        })
+    });
+
+    return result;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         var activeTab = tabs[0];
@@ -28,17 +43,23 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log(jobNames);
             console.log(jobs);
 
-            if(!jobNames || !jobs) return false;
+            var popupModels = buildPopupModels(jobNames, jobs);
+            var message = {
+                    command:'render',
+                    context: { jobs: popupModels }
+                };
 
-            $.each(jobNames, function(index, name){
-                var job = jobs[name];
+            console.log(message);
 
-                $('#jobTemplate').tmpl({
-                    dangerClass: job.result == 'FAILURE' ? 'alert-danger' : '',
-                    iconImg: getIconUrl(job.result),
-                    fullDisplayName: job.jobName+ ' #' +job.number
-                }).appendTo('#jobListGroup');
-            });
+            var iframe = document.getElementById('theFrame');
+            iframe.contentWindow.postMessage(message, '*');
         }
     });
+});
+
+window.addEventListener('message', function(event) {
+  if (event.data.html) {
+      console.log(event.data.html);
+      $('#jobListGroup').append(event.data.html);
+  }
 });
