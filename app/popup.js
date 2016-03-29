@@ -3,7 +3,7 @@
     if (result == "UNSTABLE") {
         icon = "img/unstable.png";
     } else if (result == "FAILURE") {
-        icon = "img/failure.png";
+        icon = "img/failed.png";
     } else if (result == "ABORTED") {
         icon = "img/aborted.png";
     } else if(result == null) {//in-progress
@@ -40,16 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
             var jobNames = request.data.jobNames,
                 jobs=request.data.jobs;
 
-            console.log(jobNames);
-            console.log(jobs);
-
             var popupModels = buildPopupModels(jobNames, jobs);
             var message = {
                     command:'render',
                     context: { jobs: popupModels }
                 };
-
-            console.log(message);
 
             var iframe = document.getElementById('theFrame');
             iframe.contentWindow.postMessage(message, '*');

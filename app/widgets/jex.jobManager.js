@@ -112,8 +112,17 @@
           var currentJobName = jex.getJobNameFromBuildUrl(response.url, response.number),
             job = jex.data.get(currentJobName);
 
-          if (response.fullDisplayName.indexOf(job.jobName) >= 0 && job.result != response.result) {
-            jex.pubsub.publish(jex.events.updateJob, response);
+          if (response.fullDisplayName.indexOf(job.jobName) >= 0) {
+              if(job.result != response.result){
+                  jex.pubsub.publish(jex.events.updateJob, response);
+              }
+              else{
+                  var badgeContent = {
+                      text: response.number,
+                      backgroundColor: jex.getColor(response.result)
+                  };
+                  jex.pubsub.publish(jex.events.updateBadgeText, badgeContent);
+              }
           }
 
           jex.data.set(currentJobName, {
