@@ -1,5 +1,8 @@
 (function(jex){
     jex.menuContext = {
+        _isJobExisted: function(jobName){
+
+        },
         initialize: function(){
             chrome.contextMenus.create({
                 "id": "addJobToQueue",
@@ -13,7 +16,20 @@
                         jobName = jex.getJobNameFromUrl(linkUrl),
                         requestUrl = jex.getJobUrl(jobName);
 
-                    
+                    if(!this._isJobExisted(jobName)){
+                        var dataStore = jex.dataStore,
+                            jobNames = dataStore.get('jobNames');
+                            jobs = dataStore.get('jobs');
+
+                        jobNames.push(jobName);
+                        jobs.push({
+                            jobName: jobName,
+                            jobUrl: requestUrl
+                        });
+
+                        dataStore.set('jobNames', jobNames);
+                        dataStore.set('jobs', jobs);
+                    }
                 }
             });
         }
