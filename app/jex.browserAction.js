@@ -1,7 +1,7 @@
 (function(jex){
     jex.browserAction = {
         initialize: function(){
-            jex.pubsub.subscribe('set-badge', jex.browserAction.setBadge, this);
+            jex.pubsub.subscribe('set-badge', this.setBadge, this);
         },
         setBadge: function(text, backgroundColor){
             chrome.browserAction.setBadgeText({ text: String(text) });

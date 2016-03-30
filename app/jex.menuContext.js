@@ -13,10 +13,7 @@
                         jobName = jex.getJobNameFromUrl(linkUrl),
                         requestUrl = jex.getJobUrl(jobName);
 
-                    jex.pubsub.publish("save-to-storage", {
-                        jobName: jobName,
-                        jobUrl: requestUrl
-                    });
+                    
                 }
             });
         }

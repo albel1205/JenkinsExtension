@@ -1,7 +1,7 @@
 (function(jex){
     jex.notification = {
         initialize: function(){
-            jex.pubsub.subscribe('show-notification', jex.notification.notify, this);
+            jex.pubsub.subscribe('show-notification', this.notify, this);
         },
         notify: function(title, message, iconUrl){
             var option = {
