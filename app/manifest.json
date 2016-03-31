@@ -32,7 +32,8 @@
   "permissions": [
     "tabs",
     "contextMenus",
-    "notifications"
+    "notifications",
+    "storage"
   ],
   "icons": {
     "16": "img/icon.png",
