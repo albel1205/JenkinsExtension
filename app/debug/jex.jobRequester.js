@@ -56,4 +56,5 @@
             $.Widget.prototype.destroy.call(this);
         }
     });
+    
 })(this.jex = this.jex || {}, jQuery);
