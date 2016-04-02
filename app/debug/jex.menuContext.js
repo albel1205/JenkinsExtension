@@ -26,6 +26,8 @@
                 requestUrl = jex.getJobUrl(jobName);
 
             if(!this.options.checkJobNameExisted(jobName)){
+                
+
                 var job = new Job(jobName, requestUrl);
                 this.options.addJob(job);
             }

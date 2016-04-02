@@ -21,7 +21,18 @@
     }
   ],
   "background": {
-    "scripts": [ "background.js" ],
+    "scripts": [
+        "lib/jquery-2.2.1.min.js",
+        "lib/jquery-ui.min.js",
+        "debug/job.js",
+        "debug/jex.events.js",
+        "debug/jex.utils.js",
+        "debug/jex.dataStore.js",
+        "debug/jex.jobManager.js",
+        "debug/jex.pubsub.js",
+        "debug/jex.menuContext.js",
+        "jenkins.js"
+    ],
     "persistent": false
   },
   "browser_action": {

@@ -1,45 +1,51 @@
 (function(jex){
     jex.dataStore = {
-        /**
-        * _data stores the data used by datastore's get and set methods
-        * @private
-        */
-        _data: {},
-
-        /**
-        * Gets data from the datastore
-        *
-        * @param {string} token  An identifier for retrieving associated data
-        */
-        get: function (token) {
-            return this._data[token];
+        _getData: function() {
+          return localStorage["dataStore"] ? JSON.parse(localStorage["dataStore"]) : {};
+        },
+        _setData: function(_data) {
+          localStorage.setItem("dataStore", JSON.stringify(_data));
         },
 
         /**
-        * Persists data in the datastore
-        *
-        * @param {string} token    An identifier for the stored data
-        * @param {mixed} payload   A blob of data
-        */
-        set: function (token, payload) {
-            // Store the data
-            this._data[token] = payload;
+         * Gets data from the datastore
+         *
+         * @param {string} token  An identifier for retrieving associated data
+         */
+        get: function(token) {
+          return this._getData()[token];
         },
 
         /**
-        * Removes an item from the data store
-        *
-        * @param {string} token    An identifier for the stored data
-        */
-        clear: function (token) {
-            this._data[token] = undefined;
+         * Persists data in the datastore
+         *
+         * @param {string} token    An identifier for the stored data
+         * @param {mixed} payload   A blob of data
+         */
+        set: function(token, payload) {
+          var data = this._getData();
+          data[token] = payload;
+          this._setData(data);
         },
 
         /**
-        * Clears all data from the data store
-        */
-        clearAll: function () {
-            this._data = {};
+         * Removes an item from the data store
+         *
+         * @param {string} token    An identifier for the stored data
+         */
+        clear: function(token) {
+          var data = this._getData();
+          data[token] = undefined;
+          this._setData(data);
+        },
+
+        /**
+         * Clears all data from the data store
+         */
+        clearAll: function() {
+          var data = this._getData();
+          data = {};
+          this._setData(data);
         }
     };
 })(this.jex = this.jex || {});
