@@ -1,6 +1,7 @@
-function Job(name, url){
+function Job(name, url, status){
     this.name = name;
     this.url = url;
+    this.status = status;
     this.lastBuild = '';
 
     this.setLastBuild = function(number){
@@ -10,5 +11,11 @@ function Job(name, url){
     this.fullDisplayName = function(){
         var numberPart = this.lastBuild == '' ? '' : ' #' + this.lastBuild;
         return this.name + numberPart;
+    }
+
+    this.isEqual = function(job){
+        return this.name === job.name &&
+                this.url === this.url &&
+                this.status === this.status;
     }
 }

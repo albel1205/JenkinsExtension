@@ -41,6 +41,34 @@
             return false;
         };
 
+        that.isJobUpdated = function(job){
+            var jobs = jex.dataStore.get(DATA_JOBS);
+
+            var isUpdated = false;
+            $.each(jobs, function(index, item){
+                if(item.name == job.name){
+                    isUpdated = !item.status || (item.status && item.status != job.status);
+                    return false;//break $.each
+                }
+            });
+
+            return isUpdated;
+        };
+
+        that.getAllJobs = function(){
+            var jobs = jex.dataStore.get(DATA_JOBS);
+
+            var result =[];
+            $.each(jobs, function(index, item){
+                if(item){
+                    var job = new Job(item.name, item.url, item.status);
+                    result.push(job);
+                }
+            });
+
+            return result;
+        }
+
         return that;
     }());
 })(this.jex = this.jex || {});

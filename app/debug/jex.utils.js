@@ -1,4 +1,4 @@
-(function(jex){
+(function(jex, $){
     jex.BUILD_NUMBER = "lastBuild";
     jex.API_SUFFIX = "api/json";
     jex.JENKINS_URL = "https://ci.orientsoftware.net";
@@ -112,4 +112,4 @@
             return i > -1 ? this.slice(i, 1) : [];
         };
     };
-})(this.jex = this.jex || {});
+})(this.jex = this.jex || {}, jQuery);

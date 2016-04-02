@@ -8,8 +8,12 @@
 
         _create: function(){
             jex.setupWidgetInvocationMethods(this, this.options, ['badge','notification']);
+
+            this.options.subscribe(jex.events.jobRequester.receivedResponse, this._updateNotifications, this);
         },
-        
+        _updateNotifications: function(updatedJobs){
+            
+        },
         destroy: function(){
             $.Widget.prototype.destroy.call(this);
         }
