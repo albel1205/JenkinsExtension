@@ -14,8 +14,6 @@ function Job(name, url, status){
     }
 
     this.isEqual = function(job){
-        return this.name === job.name &&
-                this.url === this.url &&
-                this.status === this.status;
+        return JSON.stringify(this) === JSON.stringify(job);
     }
 }

@@ -4,4 +4,10 @@
         checkJobNameExisted: jex.jobManager.isJobNameExisted,
         addJob: jex.jobManager.addJob
     });
+
+    $('body').jobRequester({
+        subcribe: jex.pubsub.subscribe,
+        publish: jex.pubsub.publish,
+        jobManager: jex.jobManager
+    });
 })(this.jex = this.jex || {});

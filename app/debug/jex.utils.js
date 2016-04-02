@@ -99,6 +99,10 @@
         return icon;
     };
 
+    jex.getNameFromFullname = function(fullName){
+        return fullName.split(' ')[0];
+    };
+
     jex.sendMessageToBackground = function(eventName, data){
         chrome.runtime.sendMessage({
             eventName: eventName,

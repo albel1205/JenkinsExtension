@@ -10,47 +10,48 @@
             var timeout = this.options.sleepTime,
                 that = this;
 
-            that.subcribe(jex.events.jobRequester.receivedResponse, that._receiveResponse, this);
+            that.options.subcribe(jex.events.jobRequester.receivedResponse, that._receiveResponse, this);
 
             setInterval(function(){
-                var jobs = this.jobManager.getAllJobs();
+                var jobs = that.options.jobManager.getAllJobs();
                 $.each(jobs, function(index, item){
                     if(!item) return true;//continue
 
                     var jobUrl = jex.getJobUrl(item.name);
                     $.getJSON(jobUrl, function(response) {
-                        var job = new Job(response.name, response.url, response.result);
-                        that.publish(jex.events.jobRequester.receivedResponse, job);
+                        var name = jex.getNameFromFullname(response.fullDisplayName);
+                        var job = new Job(name, response.url, response.result);
+                        that.options.publish(jex.events.jobRequester.receivedResponse, job);
                     });
                 });
             }, timeout);
         },
         _receiveResponse: function(job){
-            _updateTemporaryJobs(job);
+            this._updateTemporaryJobs(job);
 
-            var allJobs = this.jobManager.getAllJobs(),
-                allTempJobs = jex.dataStore.get('tempUpdatedJobs');
+            var allJobs = this.options.jobManager.getAllJobs(),
+                allTempJobs = this._temporaryStorage;
 
             if(allJobs.length == allTempJobs.length){
                 var updatedJobs = this._filterUpdatedJobs(allTempJobs);
-                that.publish(jex.events.jobRequester.queriedAllJobs, updatedJobs);
+                this._temporaryStorage = [];
+                that.options.publish(jex.events.jobRequester.queriedAllJobs, updatedJobs);
             }
         },
         _filterUpdatedJobs: function(jobs){
-            var result = [];
+            var result = [], that = this;
             $.each(jobs, function(index, item){
-                var isUpdated = this.options.jobManager.isJobUpdated(item);
+                var isUpdated = that.options.jobManager.isJobUpdated(item);
                 if(isUpdated) result.push(item);
             });
 
             return result;
         },
         _updateTemporaryJobs: function(job){
-            var tempJobs = jex.dataStore.get('tempUpdatedJobs');
-            if(!tempJobs) tempJobs = [];
-            tempJobs.push(job);
-            jex.dataStore.set('tempUpdatedJobs', tempJobs);
-        }
+            if(!this._temporaryStorage) this._temporaryStorage = [];
+            this._temporaryStorage.push(job);
+        },
+        _temporaryStorage: [],
         destroy: function(){
             $.Widget.prototype.destroy.call(this);
         }
