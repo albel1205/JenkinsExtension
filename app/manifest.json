@@ -32,6 +32,9 @@
         "debug/jex.pubsub.js",
         "debug/jex.menuContext.js",
         "debug/jex.jobRequester.js",
+        "debug/jex.layoutManager.js",
+        "debug/jex.notification.js",
+        "debug/jex.badge.js",
         "jenkins.js"
     ],
     "persistent": false

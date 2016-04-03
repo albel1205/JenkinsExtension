@@ -35,7 +35,7 @@
             if(allJobs.length == allTempJobs.length){
                 var updatedJobs = this._filterUpdatedJobs(allTempJobs);
                 this._temporaryStorage = [];
-                that.options.publish(jex.events.jobRequester.queriedAllJobs, updatedJobs);
+                this.options.publish(jex.events.jobRequester.queriedAllJobs, updatedJobs);
             }
         },
         _filterUpdatedJobs: function(jobs){
@@ -56,5 +56,5 @@
             $.Widget.prototype.destroy.call(this);
         }
     });
-    
+
 })(this.jex = this.jex || {}, jQuery);

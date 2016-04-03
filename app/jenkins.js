@@ -10,4 +10,18 @@
         publish: jex.pubsub.publish,
         jobManager: jex.jobManager
     });
+
+    var notification = $('body').notification({
+
+    });
+
+    var badge = $('body').badge({
+
+    });
+
+    $('body').layoutManager({
+        subscribe: jex.pubsub.subscribe,
+        badge: badge,
+        notification: notification
+    });
 })(this.jex = this.jex || {});

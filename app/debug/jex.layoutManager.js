@@ -12,7 +12,7 @@
             this.options.subscribe(jex.events.jobRequester.receivedResponse, this._updateNotifications, this);
         },
         _updateNotifications: function(updatedJobs){
-            
+            console.log('notifiy to users');
         },
         destroy: function(){
             $.Widget.prototype.destroy.call(this);
