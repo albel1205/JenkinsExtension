@@ -63,24 +63,19 @@ function Job(name, url, status, lastBuild){
 document.addEventListener('DOMContentLoaded', function() {
     var jobs = getAllJobs();
 
-    console.log(jobs);
-
     var popupModels = buildPopupModels(jobs);
     var message = {
             command:'render',
             context: { jobs: popupModels }
         };
-
-    console.log(popupModels);
-    console.log(message);
-
     var iframe = document.getElementById('theFrame');
     iframe.contentWindow.postMessage(message, '*');
 });
 
 window.addEventListener('message', function(event) {
-  if (event.data.html) {
+    console.log(event);
+    if (event.data.html) {
       console.log(event.data.html);
       $('#jobListGroup').append(event.data.html);
-  }
+    }
 });

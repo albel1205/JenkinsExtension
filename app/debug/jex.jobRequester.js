@@ -42,7 +42,9 @@
             var result = [], that = this;
             $.each(jobs, function(index, item){
                 var isUpdated = that.options.jobManager.isJobUpdated(item);
-                if(isUpdated) result.push(item);
+                if(isUpdated) {
+                    result.push(item);
+                }
             });
 
             return result;

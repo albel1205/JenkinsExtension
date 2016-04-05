@@ -21,11 +21,9 @@
 
       // Set up message event handler:
       window.addEventListener('message', function(event) {
+          console.log('test');
         var command = event.data.command;
         var name = event.data.name || 'job';
-
-        console.log(command);
-        console.log(name);
 
         switch(command) {
           case 'render':
