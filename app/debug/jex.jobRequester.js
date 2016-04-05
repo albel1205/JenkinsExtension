@@ -20,7 +20,7 @@
                     var jobUrl = jex.getJobUrl(item.name);
                     $.getJSON(jobUrl, function(response) {
                         var name = jex.getNameFromFullname(response.fullDisplayName);
-                        var job = new Job(name, response.url, response.result);
+                        var job = new Job(name, response.url, response.result, response.number);
                         that.options.publish(jex.events.jobRequester.receivedResponse, job);
                     });
                 });

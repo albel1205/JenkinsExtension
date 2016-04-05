@@ -12,7 +12,8 @@
             this.options.subscribe(jex.events.jobRequester.receivedResponse, this._updateNotifications, this);
         },
         _updateNotifications: function(updatedJobs){
-            console.log('notifiy to users');
+            this._notification('showUpdatedJobs', updatedJobs);
+            this._badge('updateBadge', updatedJobs);
         },
         destroy: function(){
             $.Widget.prototype.destroy.call(this);

@@ -1,15 +1,15 @@
-function Job(name, url, status){
+function Job(name, url, status, lastBuild){
     this.name = name;
     this.url = url;
     this.status = status;
-    this.lastBuild = '';
+    this.lastBuild = lastBuild;
 
     this.setLastBuild = function(number){
         this.lastBuild = number;
     }
 
     this.fullDisplayName = function(){
-        var numberPart = this.lastBuild == '' ? '' : ' #' + this.lastBuild;
+        var numberPart = this.lastBuild == undefined ? '' : ' #' + this.lastBuild;
         return this.name + numberPart;
     }
 

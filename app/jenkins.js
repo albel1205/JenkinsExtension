@@ -11,14 +11,8 @@
         jobManager: jex.jobManager
     });
 
-    var notification = $('body').notification({
-
-    });
-
-    var badge = $('body').badge({
-
-    });
-
+    var notification = $('body').notification();
+    var badge = $('body').badge();
     $('body').layoutManager({
         subscribe: jex.pubsub.subscribe,
         badge: badge,

@@ -7,16 +7,7 @@
     {
       "matches": [ "<all_urls>" ],
       "js": [
-        "lib/jquery-2.2.1.min.js",
-        "widgets/jex.events.js",
-        "widgets/jex.constants.js",
-        "widgets/jex.utils.js",
-        "widgets/jex.pubsub.js",
-        "widgets/jex.jobManager.js",
-        "widgets/jex.job-queue.js",
-        "widgets/jex.browser.js",
-        "widgets/jex.popup.js",
-        "widgets/jex.js"
+        "lib/jquery-2.2.1.min.js"
       ]
     }
   ],

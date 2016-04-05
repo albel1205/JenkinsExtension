@@ -23,6 +23,10 @@
       window.addEventListener('message', function(event) {
         var command = event.data.command;
         var name = event.data.name || 'job';
+
+        console.log(command);
+        console.log(name);
+
         switch(command) {
           case 'render':
             event.source.postMessage({
