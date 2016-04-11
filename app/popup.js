@@ -1,4 +1,17 @@
- function getIconUrl(result) {
+function buildPopupModels(jobs){
+    var result = [];
+    $.each(jobs, function(index, job){
+        result.push({
+            dangerClass: job.status == 'FAILURE' ? 'alert-danger' : '',
+            iconImg: getIconUrl(job.status),
+            fullDisplayName: job.fullDisplayName()
+        })
+    });
+
+    return result;
+}
+
+function getIconUrl(result) {
     var icon = "img/success.png";
     if (result == "UNSTABLE") {
         icon = "img/unstable.png";
@@ -10,51 +23,58 @@
 
     }
     return icon;
-};
+}
 
-function buildPopupModels(jobNames, jobs){
-    var result = [];
-    $.each(jobNames, function(index, name){
-        var job=jobs[name];
+function getAllJobs(){
+    var data = (localStorage["dataStore"] ? JSON.parse(localStorage["dataStore"]) : {}),
+        jobs = data['jobs'];
 
-        result.push({
-            dangerClass: job.result == 'FAILURE' ? 'alert-danger' : '',
-            iconImg:getIconUrl(job.result),
-            fullDisplayName: job.jobName + ' #' + job.number
-        })
+    var result =[];
+    $.each(jobs, function(index, item){
+        if(item){
+            var job = new Job(item.name, item.url, item.status);
+            result.push(job);
+        }
     });
 
     return result;
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        var activeTab = tabs[0];
-        chrome.tabs.sendMessage(activeTab.id, { "eventName": "loadPopupData" });
-        console.log("sent message to content script");
-    });
+function Job(name, url, status, lastBuild){
+    this.name = name;
+    this.url = url;
+    this.status = status;
+    this.lastBuild = lastBuild;
 
-    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-        console.log("received message from content script");
-        if(request.eventName == "loadPopupDataResult"){
-            var jobNames = request.data.jobNames,
-                jobs=request.data.jobs;
+    this.setLastBuild = function(number){
+        this.lastBuild = number;
+    }
 
-            var popupModels = buildPopupModels(jobNames, jobs);
-            var message = {
-                    command:'render',
-                    context: { jobs: popupModels }
-                };
+    this.fullDisplayName = function(){
+        var numberPart = this.lastBuild == undefined ? '' : ' #' + this.lastBuild;
+        return this.name + numberPart;
+    }
 
-            var iframe = document.getElementById('theFrame');
-            iframe.contentWindow.postMessage(message, '*');
-        }
-    });
-});
+    this.isEqual = function(job){
+        return JSON.stringify(this) === JSON.stringify(job);
+    }
+}
+
+window.onload = function() {
+    var jobs = getAllJobs();
+
+    var popupModels = buildPopupModels(jobs);
+    var message = {
+            command:'render',
+            context: { jobs: popupModels }
+        };
+    var iframe = document.getElementById('theFrame');
+    iframe.contentWindow.postMessage(message, '*');
+};
 
 window.addEventListener('message', function(event) {
-  if (event.data.html) {
+    if (event.data.html) {
       console.log(event.data.html);
       $('#jobListGroup').append(event.data.html);
-  }
+    }
 });

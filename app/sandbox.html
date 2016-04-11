@@ -23,8 +23,10 @@
       window.addEventListener('message', function(event) {
         var command = event.data.command;
         var name = event.data.name || 'job';
+
         switch(command) {
           case 'render':
+            console.log('render');
             event.source.postMessage({
               name: name,
               html: templates[name](event.data.context)

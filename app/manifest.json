@@ -7,24 +7,31 @@
     {
       "matches": [ "<all_urls>" ],
       "js": [
-        "lib/jquery-2.2.1.min.js",
-        "widgets/jex.events.js",
-        "widgets/jex.constants.js",
-        "widgets/jex.utils.js",
-        "widgets/jex.pubsub.js",
-        "widgets/jex.jobManager.js",
-        "widgets/jex.job-queue.js",
-        "widgets/jex.browser.js",
-        "widgets/jex.popup.js",
-        "widgets/jex.js"
+        "lib/jquery-2.2.1.min.js"
       ]
     }
   ],
   "background": {
-    "scripts": [ "background.js" ],
+    "scripts": [
+        "lib/jquery-2.2.1.min.js",
+        "lib/jquery-ui.min.js",
+        "debug/job.js",
+        "debug/jex.events.js",
+        "debug/jex.utils.js",
+        "debug/jex.dataStore.js",
+        "debug/jex.jobManager.js",
+        "debug/jex.pubsub.js",
+        "debug/jex.menuContext.js",
+        "debug/jex.jobRequester.js",
+        "debug/jex.layoutManager.js",
+        "debug/jex.notification.js",
+        "debug/jex.badge.js",
+        "jenkins.js"
+    ],
     "persistent": false
   },
   "browser_action": {
+    "name":"queriedJobs",
     "default_icon": "img/icon.png",
     "default_title": "Jenkins Notifier",
     "default_popup": "popup.html"

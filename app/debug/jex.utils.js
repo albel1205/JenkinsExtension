@@ -1,11 +1,44 @@
-(function(jex){
+(function(jex, $){
     jex.BUILD_NUMBER = "lastBuild";
     jex.API_SUFFIX = "api/json";
     jex.JENKINS_URL = "https://ci.orientsoftware.net";
     jex.UNSTABLE = "UNSTABLE";
     jex.FAILURE = "FAILURE";
     jex.ABORTED = "ABORTED";
-    
+
+    function buildFunction(widget, options) {
+        var context = options[widget],
+            fn;
+
+        if(!context) {
+            jex.log('Attempted to create a helper for ' + widget + ' but the widget was not found in the options.');
+            return;
+        }
+
+        fn = context[widget];
+        return function() {
+                    var result = fn.apply(context, arguments);
+                    return result;
+                };
+    }
+
+    // The preferred means of invoking public methods on a widget stored in options
+    // results in the awkward syntax: this.options.widget.widget('methodToInvoke')
+    // Here we setup a set of helper methods to make the meaning of the code more
+    // clear in general. Additionally, all of the complexity of invoking the widget
+    // methods is located here, so there is less chance of errors at the site
+    // where we consume this generated api.
+    // The new syntax is: this._widget('methodToInvoke')
+    jex.setupWidgetInvocationMethods = function(host, options, widgetNames) {
+        var i,
+            widgetName;
+
+        for (i = widgetNames.length - 1; i >= 0; i -= 1) {
+            widgetName = widgetNames[i];
+            host["_" + widgetName] = buildFunction(widgetName, options);
+        }
+    };
+
     jex.getJobNameFromUrl = function(url) {
         var result = "";
 
@@ -66,6 +99,10 @@
         return icon;
     };
 
+    jex.getNameFromFullname = function(fullName){
+        return fullName.split(' ')[0];
+    };
+
     jex.sendMessageToBackground = function(eventName, data){
         chrome.runtime.sendMessage({
             eventName: eventName,
@@ -79,4 +116,4 @@
             return i > -1 ? this.slice(i, 1) : [];
         };
     };
-})(this.jex = this.jex || {});
+})(this.jex = this.jex || {}, jQuery);
