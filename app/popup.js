@@ -4,7 +4,8 @@ function buildPopupModels(jobs){
         result.push({
             dangerClass: job.status == 'FAILURE' ? 'alert-danger' : '',
             iconImg: getIconUrl(job.status),
-            fullDisplayName: job.fullDisplayName()
+            fullDisplayName: job.fullDisplayName(),
+            name: job.name
         })
     });
 
@@ -38,6 +39,21 @@ function getAllJobs(){
     });
 
     return result;
+}
+
+function unsubscribeJob(name){
+    var data = (localStorage["dataStore"] ? JSON.parse(localStorage["dataStore"]) : {}),
+        jobs = data['jobs'];
+
+    var result =[];
+    $.each(jobs, function(index, item){
+        if(item.name != name){
+            result.push(item);
+        }
+    });
+    
+    data['jobs'] = result;
+    localStorage.setItem("dataStore", JSON.stringify(data));
 }
 
 function Job(name, url, status, lastBuild){
@@ -74,7 +90,14 @@ window.onload = function() {
 
 window.addEventListener('message', function(event) {
     if (event.data.html) {
-      console.log(event.data.html);
       $('#jobListGroup').append(event.data.html);
+      
+      $('.btn-delete').off('click').on('click', function(){
+          var name = $(this).data('name');
+          console.log('unsubscribeJob ' + name);
+          unsubscribeJob(name);
+          
+          $(this).closest('.list-group-item').remove();
+      });
     }
 });
