@@ -14,6 +14,9 @@
 
             setInterval(function(){
                 var jobs = that.options.jobManager.getAllJobs();
+                if(jobs.length > 0){
+                    that.options.publish(jex.events.jobRequester.updateJobCount, jobs.length);
+                }
                 $.each(jobs, function(index, item){
                     if(!item) return true;//continue
 
@@ -34,8 +37,10 @@
 
             if(allJobs.length == allTempJobs.length){
                 var updatedJobs = this._filterUpdatedJobs(allTempJobs);
-                this._temporaryStorage = [];
                 this.options.publish(jex.events.jobRequester.queriedAllJobs, updatedJobs);
+                
+                this.options.jobManager.updateJobStatus(updatedJobs);
+                this._temporaryStorage = allTempJobs = [];
             }
         },
         _filterUpdatedJobs: function(jobs){

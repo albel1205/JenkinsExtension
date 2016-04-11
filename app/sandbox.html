@@ -21,12 +21,12 @@
 
       // Set up message event handler:
       window.addEventListener('message', function(event) {
-          console.log('test');
         var command = event.data.command;
         var name = event.data.name || 'job';
 
         switch(command) {
           case 'render':
+            console.log('render');
             event.source.postMessage({
               name: name,
               html: templates[name](event.data.context)

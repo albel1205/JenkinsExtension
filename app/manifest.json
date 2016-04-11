@@ -31,6 +31,7 @@
     "persistent": false
   },
   "browser_action": {
+    "name":"queriedJobs",
     "default_icon": "img/icon.png",
     "default_title": "Jenkins Notifier",
     "default_popup": "popup.html"

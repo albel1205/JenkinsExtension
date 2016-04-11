@@ -18,4 +18,16 @@
         badge: badge,
         notification: notification
     });
+    
+    chrome.browserAction.onClicked.addListener(function() {
+        var jobs = getAllJobs();
+
+        var popupModels = buildPopupModels(jobs);
+        var message = {
+                command:'render',
+                context: { jobs: popupModels }
+            };
+        var iframe = document.getElementById('theFrame');
+        iframe.contentWindow.postMessage(message, '*');
+    });
 })(this.jex = this.jex || {});

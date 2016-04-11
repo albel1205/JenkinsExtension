@@ -18,6 +18,9 @@
                 chrome.browserAction.setBadgeBackgroundColor({color: this.options.backgroundColor});
             }
         },
+        updateJobCount: function(count){
+            chrome.browserAction.setBadgeText({text: String(count)});
+        },
         destroy: function(){
             $.Widget.prototype.destroy.call(this);
         }

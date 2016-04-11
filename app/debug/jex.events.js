@@ -5,7 +5,8 @@
         },
         jobRequester:{
             receivedResponse: 'jobRequester/receivedResponse',
-            queriedAllJobs: 'jobRequester/queriedAllJobs'
+            queriedAllJobs: 'jobRequester/queriedAllJobs',
+            updateJobCount: 'jobRequester/updateJobCount'
         }
     }
 })(this.jex = this.jex || {});

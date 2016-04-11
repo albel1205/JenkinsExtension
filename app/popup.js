@@ -60,7 +60,7 @@ function Job(name, url, status, lastBuild){
     }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+window.onload = function() {
     var jobs = getAllJobs();
 
     var popupModels = buildPopupModels(jobs);
@@ -70,10 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
         };
     var iframe = document.getElementById('theFrame');
     iframe.contentWindow.postMessage(message, '*');
-});
+};
 
 window.addEventListener('message', function(event) {
-    console.log(event);
     if (event.data.html) {
       console.log(event.data.html);
       $('#jobListGroup').append(event.data.html);

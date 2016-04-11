@@ -68,6 +68,22 @@
 
             return result;
         }
+        
+        that.updateJobStatus = function(tempJobs){
+            var jobs = jex.dataStore.get(DATA_JOBS);
+
+            var result =[];
+            $.each(jobs, function(index, item){
+                $.each(tempJobs, function(tempIndex, tempItem){
+                   if(tempItem.name == item.name){
+                       item.status = tempItem.status;
+                       return false;//break;
+                   } 
+                });
+            });
+            
+            jex.dataStore.set(DATA_JOBS, jobs);
+        }
 
         return that;
     }());
