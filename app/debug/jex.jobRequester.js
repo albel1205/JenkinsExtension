@@ -14,7 +14,7 @@
 
             setInterval(function(){
                 var jobs = that.options.jobManager.getAllJobs();
-                if(jobs.length > 0){
+                if(jobs){
                     that.options.publish(jex.events.jobRequester.updateJobCount, jobs.length);
                 }
                 $.each(jobs, function(index, item){

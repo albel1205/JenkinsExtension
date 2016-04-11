@@ -19,7 +19,12 @@
             }
         },
         updateJobCount: function(count){
-            chrome.browserAction.setBadgeText({text: String(count)});
+            var numberOfNotification = String(count);
+            if(numberOfNotification == 0){
+                chrome.browserAction.setBadgeText({text: ''});//clear badge
+            }else{
+                chrome.browserAction.setBadgeText({text: numberOfNotification});
+            }
         },
         destroy: function(){
             $.Widget.prototype.destroy.call(this);

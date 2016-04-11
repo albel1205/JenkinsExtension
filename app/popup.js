@@ -43,7 +43,8 @@ function getAllJobs(){
 
 function unsubscribeJob(name){
     var data = (localStorage["dataStore"] ? JSON.parse(localStorage["dataStore"]) : {}),
-        jobs = data['jobs'];
+        jobs = data['jobs'],
+        jobNames = data['jobNames'];
 
     var result =[];
     $.each(jobs, function(index, item){
@@ -51,9 +52,21 @@ function unsubscribeJob(name){
             result.push(item);
         }
     });
-    
     data['jobs'] = result;
-    localStorage.setItem("dataStore", JSON.stringify(data));
+    
+    var names =[];
+    $.each(jobNames, function(index, item){
+        if(item != name){
+            names.push(item);
+        }
+    });
+    data['jobNames'] = names;
+    
+    if((result && result.length == 0) && (names && names.length == 0)){
+        localStorage.removeItem('dataStore'); 
+    }else{
+        localStorage.setItem('dataStore', JSON.stringify(data));
+    }
 }
 
 function Job(name, url, status, lastBuild){
