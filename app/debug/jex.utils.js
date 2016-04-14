@@ -1,7 +1,6 @@
 (function(jex, $){
     jex.BUILD_NUMBER = "lastBuild";
     jex.API_SUFFIX = "api/json";
-    jex.JENKINS_URL = "https://ci.orientsoftware.net";
     jex.UNSTABLE = "UNSTABLE";
     jex.FAILURE = "FAILURE";
     jex.ABORTED = "ABORTED";
@@ -49,6 +48,10 @@
 
         return result;
     };
+    
+    jex.getBaseUrl = function(url){
+        return url.match(/.*?(?=view\/|$)/i)[0];
+    }
 
     jex.getJobNameFromBuildUrl = function(url, number){
       var numberIndex = url.indexOf(number);
@@ -56,13 +59,8 @@
       return jex.getJobNameFromUrl(jobUrl);
     };
 
-    jex.buildQueryJobUrl = function (url) {
-        var jobName = this.getJobNameFromUrl(url);
-        return jex.JENKINS_URL + "/job/" + jobName + "/" + jex.BUILD_NUMBER + "/" + jex.API_SUFFIX;
-    };
-
-    jex.getJobUrl = function(jobName){
-        return jex.JENKINS_URL + "/job/" + jobName + "/" + jex.BUILD_NUMBER + "/" + jex.API_SUFFIX;
+    jex.getJobUrl = function(baseUrl, jobName){
+        return baseUrl + "/job/" + jobName + "/" + jex.BUILD_NUMBER + "/" + jex.API_SUFFIX;
     };
 
     jex.log = function (args) {

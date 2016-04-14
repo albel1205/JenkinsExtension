@@ -33,7 +33,7 @@ function getAllJobs(){
     var result =[];
     $.each(jobs, function(index, item){
         if(item){
-            var job = new Job(item.name, item.url, item.status);
+            var job = new Job(item.name, item.url, item.status, item.lastBuild);
             result.push(job);
         }
     });

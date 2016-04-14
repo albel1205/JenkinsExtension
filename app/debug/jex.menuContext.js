@@ -23,11 +23,10 @@
         },
         _monitorJob: function(jobUrl){
             var jobName = jex.getJobNameFromUrl(jobUrl),
-                requestUrl = jex.getJobUrl(jobName);
+                baseUrl = jex.getBaseUrl(jobUrl),
+                requestUrl = jex.getJobUrl(baseUrl, jobName);
 
             if(!this.options.checkJobNameExisted(jobName)){
-                
-
                 var job = new Job(jobName, requestUrl);
                 this.options.addJob(job);
             }

@@ -47,7 +47,7 @@
             var isUpdated = false;
             $.each(jobs, function(index, item){
                 if(item.name == job.name){
-                    isUpdated = !item.status || (item.status && item.status != job.status);
+                    isUpdated = item.status != job.status;
                     return false;//break $.each
                 }
             });
@@ -77,6 +77,7 @@
                 $.each(tempJobs, function(tempIndex, tempItem){
                    if(tempItem.name == item.name){
                        item.status = tempItem.status;
+                       item.lastBuild = tempItem.lastBuild;
                        return false;//break;
                    } 
                 });

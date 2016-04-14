@@ -1,7 +1,7 @@
 function Job(name, url, status, lastBuild){
     this.name = name;
     this.url = url;
-    this.status = status;
+    this.status = status == undefined ? 'local' : status;
     this.lastBuild = lastBuild;
 
     this.setLastBuild = function(number){

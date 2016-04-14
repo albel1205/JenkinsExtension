@@ -20,10 +20,10 @@
                 $.each(jobs, function(index, item){
                     if(!item) return true;//continue
 
-                    var jobUrl = jex.getJobUrl(item.name);
+                    var jobUrl = jex.getJobUrl(item.url);
                     $.getJSON(jobUrl, function(response) {
                         var name = jex.getNameFromFullname(response.fullDisplayName);
-                        var job = new Job(name, response.url, response.result, response.number);
+                        var job = new Job(name, response.url, response.result, response.id);
                         that.options.publish(jex.events.jobRequester.receivedResponse, job);
                     });
                 });
